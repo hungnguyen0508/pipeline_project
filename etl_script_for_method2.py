@@ -86,6 +86,14 @@ def save_data(result,save_path):
 	result.repartition(1).write.option("header","true").csv(save_path+"/output.csv")
 	return print("Data Saved Successfully")
 
+def import_to_mysql(result):
+    url = 'jdbc:mysql://' + 'localhost' + ':' + '3306' + '/' + 'etl_data'
+    driver = "com.mysql.cj.jdbc.Driver"
+    user = 'root'
+    password = ''
+    result.write.format('jdbc').option('url',url).option('driver',driver).option('dbtable','customer_content_stats').option('user',user).option('password',password).mode('append').save()
+    return print("Data Import Successfully")
+
 def main(df,save_path):
 	print('-------------Selecting fields--------------')
 	df = select_fields(df)
@@ -105,28 +113,12 @@ def main(df,save_path):
 	result = customer_taste(result)
 	print('-------------Saving Results --------------')
 	save_data(result,save_path)
+	print('-------------Importing data to MySQL --------------')
+	import_to_mysql(result)
 	print('Task finished')
 	return result
 
-def main2(df): 
-	print('-------------Selecting fields--------------')
-	df = select_fields(df)
-	print('-------------Calculating Devices --------------')
-	total_devices = calculate_devices(df)
-	print('-------------Day Counting---------------------')
-	day_count = active_day_count(df)
-	print('-------------Transforming Category --------------')
-	df = transform_category(df)
-	print('-------------Calculating Statistics --------------')
-	statistics = calculate_statistics(df)
-	print('--------------Join three tables----------------')
-	result = join_table(statistics, total_devices, day_count)
-	print('-------------Finalizing results --------------')
-	result = finalize_result(result)
-	print("--------------Identifying customer taste-------------")
-	result = customer_taste(result)
-	print("finished")
-	return result
+
 
 
 	

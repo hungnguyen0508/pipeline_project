@@ -33,7 +33,8 @@ def get_date_list():
         current_date+=timedelta(days=1)
     return date_list 
 
-#Method 2: Read all files and then ETL: 
+
+
 def main():
     input_path=get_input_path()
     output_path=get_output_path()
@@ -46,9 +47,10 @@ def main():
     result = etl_script_for_method2.union_data(list_result)
     result = etl_script_for_method2.select_fields(result)
     result = etl_script_for_method2.active_day_count(result)
-    result = etl_script_for_method2.save_data(result, output_path) 
-    return result
-
+    etl_script_for_method2.save_data(result, output_path) 
+    etl_script_for_method2.save_data(result)
+    print("ETL successfully")
+    return 
 main()
 
 
