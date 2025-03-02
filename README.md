@@ -1,4 +1,4 @@
-# TV Viewer ETL Pipeline
+# StreamWatch ETL Pipeline
 
 ## 📌 Project Overview
 This project is an **ETL (Extract, Transform, Load) pipeline** designed to process large-scale JSON log data (10GB+) from TV program viewership. The pipeline extracts raw data, transforms it into meaningful insights, and stores the results in **CSV format** and a **MySQL database** for further analysis.
